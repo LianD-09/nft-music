@@ -94,12 +94,15 @@ export default function ListNFT() {
         value: royaltyFee,
       });
       await transaction.wait();
+      console.log(1234);
 
       alert("Upload successfully");
       updateMessage("");
       updateFormParams({ name: "", description: "", price: "", artist: "" });
       navigate("/");
     } catch (e) {
+      updateMessage('');
+      alert("Upload failed");
       console.log(e);
     }
   };
