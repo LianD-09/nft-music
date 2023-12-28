@@ -130,6 +130,36 @@ contract MusicNFTMarketplace is ERC721URIStorage, Ownable {
         return (tokens);
     }
 
+    function getMyResellTokens() external view returns (MarketItem[] memory) {
+        uint256 itemsCount = _tokenIds.current();
+        uint256 currentIndex;
+        uint256 resellCount;
+
+        for (uint256 i = 0; i < itemsCount; i++) {
+            if (
+                idToMarketItem[i + 1].resell == true &&
+                idToMarketItem[i + 1].seller == msg.sender &&
+                ownerOf(i + 1) != msg.sender
+            ) {
+                resellCount++;
+            }
+        }
+
+        MarketItem[] memory tokens = new MarketItem[](resellCount);
+
+        for (uint256 i = 0; i < itemsCount; i++) {
+            if (
+                idToMarketItem[i + 1].resell == true &&
+                idToMarketItem[i + 1].seller == msg.sender &&
+                ownerOf(i + 1) != msg.sender
+            ) {
+                tokens[currentIndex] = idToMarketItem[i + 1];
+                currentIndex++;
+            }
+        }
+        return (tokens);
+    }
+
     function checkIsOwner() external view returns (bool) {
         return address(msg.sender) == address(creator);
     }

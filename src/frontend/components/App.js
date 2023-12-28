@@ -20,6 +20,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
   const [isArtist, setIsArtist] = useState(false);
+  const [tab, setTab] = useState(0);
 
   const connectWallet = async () => {
     const accounts = await window.ethereum.request({
@@ -99,22 +100,22 @@ function App() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
-                    <Nav.Link as={Link} to="/">
+                    <Nav.Link as={Link} to="/" onClick={() => setTab(0)} className={tab === 0 && `text-white`}>
                       HOME
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/my-tokens">
+                    <Nav.Link as={Link} to="/my-tokens" onClick={() => setTab(1)} className={tab === 1 && `text-white`}>
                       MY TOKENS
                     </Nav.Link>
-                    {/* <Nav.Link as={Link} to="/my-resales">
+                    <Nav.Link as={Link} to="/my-resales" onClick={() => setTab(2)} className={tab === 2 && `text-white`}>
                       MY RESALES
-                    </Nav.Link> */}
+                    </Nav.Link>
                     {isArtist && (
-                      <Nav.Link as={Link} to="/list-nft">
+                      <Nav.Link as={Link} to="/list-nft" onClick={() => setTab(3)} className={tab === 3 && `text-white`}>
                         LIST NFT
                       </Nav.Link>
                     )}
                     {isOwner && (
-                      <Nav.Link as={Link} to="/setting">
+                      <Nav.Link as={Link} to="/setting" onClick={() => setTab(4)} className={tab === 4 && `text-white`}>
                         SETTING
                       </Nav.Link>
                     )}
@@ -158,7 +159,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/my-tokens" element={<MyTokens />} />
-                {/* <Route path="/my-resales" element={<MyResales />} /> */}
+                <Route path="/my-resales" element={<MyResales />} />
                 {isArtist && <Route path="/list-nft" element={<ListNFT />} />}
                 {isOwner && <Route path="/setting" element={<Setting />} />}
               </Routes>
