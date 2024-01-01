@@ -99,23 +99,48 @@ function App() {
                 <Navbar.Brand href="/">Music NFT Marketplace</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                  <Nav className="me-auto">
-                    <Nav.Link as={Link} to="/" onClick={() => setTab(0)} className={tab === 0 && `text-white`}>
+                  <Nav className="me-auto flex-column">
+                    <Nav.Link
+                      as={Link}
+                      to="/"
+                      onClick={() => setTab(0)}
+                      className={tab === 0 && `text-white`}
+                    >
                       HOME
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/my-tokens" onClick={() => setTab(1)} className={tab === 1 && `text-white`}>
+                    <Nav.Link
+                      as={Link}
+                      to="/my-tokens"
+                      onClick={() => setTab(1)}
+                      className={tab === 1 && `text-white`}
+                    >
                       MY TOKENS
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/my-resales" onClick={() => setTab(2)} className={tab === 2 && `text-white`}>
+                    <Nav.Link
+                      as={Link}
+                      to="/my-resales"
+                      onClick={() => setTab(2)}
+                      className={tab === 2 && `text-white`}
+                    >
                       MY RESALES
                     </Nav.Link>
                     {isArtist && (
-                      <Nav.Link as={Link} to="/list-nft" onClick={() => setTab(3)} className={tab === 3 && `text-white`}>
+                      <Nav.Link
+                        as={Link}
+                        to="/list-nft"
+                        onClick={() => setTab(3)}
+                        className={tab === 3 && `text-white`}
+                      >
                         LIST NFT
                       </Nav.Link>
                     )}
                     {isOwner && (
-                      <Nav.Link as={Link} to="/setting" onClick={() => setTab(4)} className={tab === 4 && `text-white`}>
+                      <Nav.Link
+                        as={Link}
+                        to="/setting"
+                        onClick={() => setTab(4)}
+                        className={tab === 4 && `text-white`}
+                      >
                         SETTING
                       </Nav.Link>
                     )}

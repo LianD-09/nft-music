@@ -1,15 +1,10 @@
 import { ethers } from "ethers";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { getTokenInfo } from "../utils";
 import { AppContext } from "./App";
 import { useNavigate } from "react-router";
+import TokenCard from "./TokenCard";
 
 const Home = () => {
   const audioRefs = useRef([]);
@@ -32,8 +27,7 @@ const Home = () => {
         setMarketItems(marketItems);
         setLoading(false);
       }
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
     }
   }, [contract]);
@@ -58,6 +52,15 @@ const Home = () => {
     [contract, loadMarketplaceItems]
   );
 
+  const onClickPauseAndPlay = useCallback(
+    (_index) => {
+      setPrevious(selected);
+      setSelected(_index);
+      if (!isPlaying || _index === selected) setIsPlaying(!isPlaying);
+    },
+    [isPlaying, selected]
+  );
+
   useEffect(() => {
     if (contract) {
       loadMarketplaceItems();
@@ -73,6 +76,27 @@ const Home = () => {
     }
   });
 
+  const renderCardFooter = useCallback(
+    (item) =>
+      item.resell ? (
+        <span
+          className="text-danger font-weight-bold card-text-bottom"
+          style={{ margin: 0 }}
+        >
+          You are the seller of this token ({ethers.formatEther(item.price)})
+        </span>
+      ) : (
+        <Button
+          onClick={() => buyMarketItem(item)}
+          className="btn btn-warning card-text-bottom"
+          size="lg"
+        >
+          {`Buy for ${ethers.formatEther(item.price)} ETH`}
+        </Button>
+      ),
+    [buyMarketItem]
+  );
+
   if (loading)
     return (
       <main style={{ padding: "1rem 0" }}>
@@ -86,76 +110,17 @@ const Home = () => {
         <div className="px-5 container">
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
             {marketItems.map((item, idx) => (
-              <Col key={idx} className="overflow-hidden">
-                <audio
-                  src={item.audio}
-                  key={idx}
-                  ref={(el) => (audioRefs.current[idx] = el)}
-                />
-                <Card>
-                  <Card.Img variant="top" src={item.identicon} />
-                  <Card.Body>
-                    <Card.Title>
-                      {item.name} ({item.artist})
-                    </Card.Title>
-                    <p>{item.description}</p>
-                    <div className="d-grid px-4">
-                      <Button
-                        className="btn btn-warning"
-                        onClick={() => {
-                          setPrevious(selected);
-                          setSelected(idx);
-                          if (!isPlaying || idx === selected)
-                            setIsPlaying(!isPlaying);
-                        }}
-                      >
-                        {isPlaying && selected === idx ? (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="23"
-                            height="23"
-                            fill="currentColor"
-                            className="bi bi-pause"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z" />
-                          </svg>
-                        ) : (
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="23"
-                            height="23"
-                            fill="currentColor"
-                            className="bi bi-play"
-                            viewBox="0 0 16 16"
-                          >
-                            <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-                          </svg>
-                        )}
-                      </Button>
-                    </div>
-                    <Card.Text className="mt-1">
-                      {ethers.formatEther(item.price)} ETH
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    {item.seller === account ? (
-                      <p className="text-danger font-weight-bold">
-                        You are the seller of this token (
-                        {ethers.formatEther(item.price)})
-                      </p>
-                    ) : (
-                      <Button
-                        onClick={() => buyMarketItem(item)}
-                        className="btn btn-warning"
-                        size="lg"
-                      >
-                        {`Buy for ${ethers.formatEther(item.price)} ETH`}
-                      </Button>
-                    )}
-                  </Card.Footer>
-                </Card>
-              </Col>
+              <TokenCard
+                key={item.tokenId}
+                audioRefs={audioRefs}
+                _index={idx}
+                tokenData={item}
+                renderFooter={renderCardFooter}
+                onClickPauseAndPlay={onClickPauseAndPlay}
+                isPlaying={isPlaying}
+                selected={selected}
+                isHomePage
+              />
             ))}
           </Row>
         </div>

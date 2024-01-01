@@ -22,24 +22,24 @@ export default function ListNFT() {
       try {
         const account = await makeConnectToStorageClient();
         if (account) {
-          alert("You are connected to web3.storage")
+          alert("You are connected to web3.storage");
+        } else {
+          alert(
+            "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+          );
+          navigate("/");
         }
-        else {
-          alert("You are not connected to web3.storage. Please go to your mail to verify before continue!");
-          navigate("/")
-        }
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e);
-        alert("You are not connected to web3.storage. Please try again")
-        navigate("/")
+        alert("You are not connected to web3.storage. Please try again");
+        navigate("/");
       }
-    }
+    };
 
     connect();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const changeFile = async (e) => {
     const file = e.target.files[0];
@@ -101,7 +101,7 @@ export default function ListNFT() {
       updateFormParams({ name: "", description: "", price: "", artist: "" });
       navigate("/");
     } catch (e) {
-      updateMessage('');
+      updateMessage("");
       alert("Upload failed");
       console.log(e);
     }
@@ -159,7 +159,7 @@ export default function ListNFT() {
                 value={formParams.description}
                 onChange={changeDescription}
                 required
-              ></textarea>
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="price">
@@ -173,7 +173,7 @@ export default function ListNFT() {
                 value={formParams.price}
                 onChange={changePrice}
                 required
-              ></input>
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="image">
@@ -185,14 +185,10 @@ export default function ListNFT() {
                 onChange={changeFile}
                 accept=".mp3,.wma,.wav,.flac"
                 required
-              ></input>
+              />
             </div>
             <br></br>
-            <Button
-              type="submit"
-              disabled={!file}
-              className="btn btn-warning"
-            >
+            <Button type="submit" disabled={!file} className="btn btn-warning">
               List NFT
             </Button>
             <div className="text-danger">{message}</div>
