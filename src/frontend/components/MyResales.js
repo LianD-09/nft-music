@@ -79,8 +79,8 @@ export default function MyTokens() {
     }
   }, [contract, loadMyTokens]);
 
-  const renderCardFooter =
-    ((item) => (
+  const renderCardFooter = useCallback(
+    (item) => (
       <>
         <p
           className="text-danger font-weight-bold card-text-bottom"
@@ -110,7 +110,8 @@ export default function MyTokens() {
         </InputGroup> */}
       </>
     ),
-    []);
+    []
+  );
 
   if (loading)
     return (

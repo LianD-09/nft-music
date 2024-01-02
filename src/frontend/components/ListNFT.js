@@ -41,7 +41,7 @@ export default function ListNFT() {
           showNotifyMessage(
             createNotifyMessage(
               NotifyTypes.WARNING,
-              "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+              "You are not connected to web3.storage!"
             )
           );
           navigate("/");
@@ -52,7 +52,7 @@ export default function ListNFT() {
         showNotifyMessage(
           createNotifyMessage(
             NotifyTypes.WARNING,
-            "You are not connected to web3.storage. Please try again!"
+            "You are not connected to web3.storage!"
           )
         );
         navigate("/");
