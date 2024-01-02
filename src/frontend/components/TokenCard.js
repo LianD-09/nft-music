@@ -21,7 +21,7 @@ function TokenCard(props) {
   } = props;
 
   return (
-    <Col key={_index} className="overflow-hidden">
+    <Col key={_index} className="overflow-hidden col-auto col-md-4">
       <audio
         src={tokenData.audio}
         key={_index}
@@ -29,9 +29,13 @@ function TokenCard(props) {
       />
       <Card>
         <Card.Img variant="top" src={tokenData.identicon} />
-        <Card.Body color="secondary">
-          <Card.Title>{tokenData.name}</Card.Title>
-          {isHomePage && <Card.Subtitle>{tokenData.artist}</Card.Subtitle>}
+        <Card.Body color="secondary" className="text-center">
+          <Card.Title className="card-body-title">{tokenData.name}</Card.Title>
+          {isHomePage && (
+            <Card.Subtitle className="card-body-title">
+              {tokenData.artist}
+            </Card.Subtitle>
+          )}
           {isHomePage && (
             <p style={{ margin: "8px 0" }}>{tokenData.description}</p>
           )}

@@ -1,10 +1,15 @@
 import { ethers } from "ethers";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { getTokenInfo } from "../utils";
 import { AppContext } from "./App";
 import { useNavigate } from "react-router";
 import TokenCard from "./TokenCard";
+import {
+  showNotifyMessage,
+  createNotifyMessage,
+  NotifyTypes,
+} from "./Notify/NotifyMessageGlobal";
 
 const Home = () => {
   const audioRefs = useRef([]);
@@ -41,9 +46,15 @@ const Home = () => {
           })
         ).wait();
         loadMarketplaceItems();
-        alert("Buy token successfully");
+        // alert("Buy token successfully");
+        showNotifyMessage(
+          createNotifyMessage(NotifyTypes.SUCCESS, "Buy token successfully!")
+        );
       } catch (e) {
-        alert("Something went wrong");
+        // alert("Something went wrong!");
+        showNotifyMessage(
+          createNotifyMessage(NotifyTypes.FAILURE, "Something went wrong!")
+        );
         console.log(e);
       }
       navigate("/my-tokens");
@@ -78,7 +89,7 @@ const Home = () => {
 
   const renderCardFooter = useCallback(
     (item) =>
-      item.resell ? (
+      item.seller === account ? (
         <span
           className="text-danger font-weight-bold card-text-bottom"
           style={{ margin: 0 }}
@@ -94,7 +105,7 @@ const Home = () => {
           {`Buy for ${ethers.formatEther(item.price)} ETH`}
         </Button>
       ),
-    [buyMarketItem]
+    [account, buyMarketItem]
   );
 
   if (loading)
@@ -107,8 +118,8 @@ const Home = () => {
   return (
     <div className="flex justify-center">
       {marketItems.length > 0 ? (
-        <div className="px-5 container">
-          <Row xs={1} md={2} lg={4} className="g-4 py-5">
+        <Container>
+          <Row style={{ rowGap: "16px" }}>
             {marketItems.map((item, idx) => (
               <TokenCard
                 key={item.tokenId}
@@ -123,7 +134,7 @@ const Home = () => {
               />
             ))}
           </Row>
-        </div>
+        </Container>
       ) : (
         <main style={{ padding: "1rem 0" }}>
           <h2>No tokens</h2>

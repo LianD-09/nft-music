@@ -4,6 +4,11 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { makeConnectToStorageClient, storeFileAndMetadata } from "../api";
 import { AppContext } from "./App";
+import {
+  showNotifyMessage,
+  createNotifyMessage,
+  NotifyTypes,
+} from "./Notify/NotifyMessageGlobal";
 
 export default function ListNFT() {
   const [formParams, updateFormParams] = useState({
@@ -22,16 +27,34 @@ export default function ListNFT() {
       try {
         const account = await makeConnectToStorageClient();
         if (account) {
-          alert("You are connected to web3.storage");
+          // alert("You are connected to web3.storage");
+          showNotifyMessage(
+            createNotifyMessage(
+              NotifyTypes.SUCCESS,
+              "You are connected to web3.storage"
+            )
+          );
         } else {
-          alert(
-            "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+          // alert(
+          //   "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+          // );
+          showNotifyMessage(
+            createNotifyMessage(
+              NotifyTypes.WARNING,
+              "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+            )
           );
           navigate("/");
         }
       } catch (e) {
         console.log(e);
-        alert("You are not connected to web3.storage. Please try again");
+        // alert("You are not connected to web3.storage. Please try again");
+        showNotifyMessage(
+          createNotifyMessage(
+            NotifyTypes.WARNING,
+            "You are not connected to web3.storage. Please try again!"
+          )
+        );
         navigate("/");
       }
     };
@@ -96,13 +119,19 @@ export default function ListNFT() {
       await transaction.wait();
       console.log(1234);
 
-      alert("Upload successfully");
+      // alert("Upload successfully");
+      showNotifyMessage(
+        createNotifyMessage(NotifyTypes.SUCCESS, "Upload successfully!")
+      );
       updateMessage("");
       updateFormParams({ name: "", description: "", price: "", artist: "" });
       navigate("/");
     } catch (e) {
       updateMessage("");
-      alert("Upload failed");
+      // alert("Upload failed");
+      showNotifyMessage(
+        createNotifyMessage(NotifyTypes.FAILURE, "Upload failed!")
+      );
       console.log(e);
     }
   };

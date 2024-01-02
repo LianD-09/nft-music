@@ -2,6 +2,11 @@ import { ethers } from "ethers";
 import { useContext, useState } from "react";
 import { Button } from "react-bootstrap";
 import { AppContext } from "./App";
+import {
+  showNotifyMessage,
+  createNotifyMessage,
+  NotifyTypes,
+} from "./Notify/NotifyMessageGlobal";
 
 export default function Setting() {
   const { contract } = useContext(AppContext);
@@ -18,15 +23,27 @@ export default function Setting() {
       );
       console.log(isArtistExisted);
       if (isArtistExisted) {
-        alert("Artist already exists");
+        // alert("Artist already exists");
+        showNotifyMessage(
+          createNotifyMessage(NotifyTypes.WARNING, "Artist already exists!")
+        );
       } else {
         const transaction = await contract.createNewArtist(converttedAddress);
         const id = await transaction.wait();
         console.log(id);
-        alert("Created artist successfully");
+        // alert("Created artist successfully");
+        showNotifyMessage(
+          createNotifyMessage(
+            NotifyTypes.SUCCESS,
+            "Created artist successfully!"
+          )
+        );
       }
     } catch (e) {
-      alert("Something went wrong");
+      // alert("Something went wrong");
+      showNotifyMessage(
+        createNotifyMessage(NotifyTypes.FAILURE, "Something went wrong!")
+      );
     } finally {
       setLoading(false);
     }

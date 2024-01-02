@@ -1,10 +1,15 @@
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card, Button, InputGroup, Form } from "react-bootstrap";
+import { Row, Button, InputGroup, Form, Container } from "react-bootstrap";
 import { AppContext } from "./App";
 import { getTokenInfo } from "../utils";
 import { useNavigate } from "react-router";
 import TokenCard from "./TokenCard";
+import {
+  showNotifyMessage,
+  createNotifyMessage,
+  NotifyTypes,
+} from "./Notify/NotifyMessageGlobal";
 
 export default function MyTokens() {
   const audioRefs = useRef([]);
@@ -40,10 +45,16 @@ export default function MyTokens() {
         await (
           await contract.resellToken(item.tokenId, price, { value: fee })
         ).wait();
-        alert("Resell successfully");
+        // alert("Resell successfully");
+        showNotifyMessage(
+          createNotifyMessage(NotifyTypes.SUCCESS, "Resell successfully!")
+        );
         loadMyTokens();
       } catch (e) {
-        alert("Something went wrong");
+        // alert("Something went wrong");
+        showNotifyMessage(
+          createNotifyMessage(NotifyTypes.FAILURE, "Something went wrong!")
+        );
       }
       navigate("/");
     },
@@ -113,8 +124,8 @@ export default function MyTokens() {
   return (
     <div className="flex justify-center">
       {myTokens.length > 0 ? (
-        <div className="px-5 container">
-          <Row xs={1} md={2} lg={4} className="g-4 py-5">
+        <Container>
+          <Row style={{ rowGap: "16px" }}>
             {myTokens.map((item, idx) => (
               <TokenCard
                 audioRefs={audioRefs}
@@ -127,7 +138,7 @@ export default function MyTokens() {
               />
             ))}
           </Row>
-        </div>
+        </Container>
       ) : (
         <main style={{ padding: "1rem 0" }}>
           <h2>No owned tokens</h2>
