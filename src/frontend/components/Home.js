@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Container, Row, Spinner } from "react-bootstrap";
 import { getTokenInfo } from "../utils";
 import { AppContext } from "./App";
 import { useNavigate } from "react-router";
@@ -110,13 +110,20 @@ const Home = () => {
 
   if (loading)
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Loading...</h2>
-      </main>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Spinner animation="border" style={{ display: "flex" }} />
+      </div>
     );
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" style={{ paddingTop: 20, paddingBottom: 20 }}>
       {marketItems.length > 0 ? (
         <Container>
           <Row style={{ rowGap: "16px" }}>

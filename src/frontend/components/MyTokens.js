@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useContext, useCallback } from "react";
 import { ethers } from "ethers";
-import { Row, Button, InputGroup, Form, Container } from "react-bootstrap";
+import { Row, Button, InputGroup, Form, Container, Spinner } from "react-bootstrap";
 import { AppContext } from "./App";
 import { getTokenInfo } from "../utils";
 import { useNavigate } from "react-router";
@@ -113,16 +113,22 @@ export default function MyTokens() {
     [resellId, resellPrice, resellItem]
   );
 
-  if (loading) {
+  if (loading)
     return (
-      <main style={{ padding: "1rem 0" }}>
-        <h2>Loading...</h2>
-      </main>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Spinner animation="border" style={{ display: "flex" }}/>
+      </div>
     );
-  }
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center" style={{ paddingTop: 20, paddingBottom: 20 }}>
       {myTokens.length > 0 ? (
         <Container>
           <Row style={{ rowGap: "16px" }}>

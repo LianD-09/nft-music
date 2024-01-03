@@ -1,11 +1,5 @@
-import React, {
-  useRef,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
-} from "react";
-import { Row, Col, Card, Button, InputGroup, Form } from "react-bootstrap";
+import React from "react";
+import { Col, Card, Button } from "react-bootstrap";
 import { ethers } from "ethers";
 
 function TokenCard(props) {
@@ -21,18 +15,33 @@ function TokenCard(props) {
   } = props;
 
   return (
-    <Col key={_index} className="overflow-hidden col-auto col-md-4">
+    <Col key={_index} className="overflow-hidden col-auto col-md-4" style={{ flexBasis: "25%" }}>
       <audio
         src={tokenData.audio}
         key={_index}
         ref={(el) => (audioRefs.current[_index] = el)}
       />
       <Card>
-        <Card.Img variant="top" src={tokenData.identicon} />
-        <Card.Body color="secondary" className="text-center">
-          <Card.Title className="card-body-title">{tokenData.name}</Card.Title>
+        <Card.Img
+          variant="top"
+          src={tokenData.identicon}
+          width={200}
+          style={{
+            objectFit: "cover",
+            aspectRatio: '1/1'
+          }} />
+        <Card.Body
+          color="secondary"
+          className="text-center"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1
+          }}
+        >
+          <Card.Title className="card-body-title" style={{ fontWeight: "700" }}>{tokenData.name}</Card.Title>
           {isHomePage && (
-            <Card.Subtitle className="card-body-title">
+            <Card.Subtitle className="card-body-subtitle" style={{ fontWeight: "normal", lineHeight: 1.75 }}>
               {tokenData.artist}
             </Card.Subtitle>
           )}

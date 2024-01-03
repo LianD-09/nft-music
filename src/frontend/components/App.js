@@ -7,7 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { Spinner, Navbar, Nav, Button, Container, Row } from "react-bootstrap";
+import { Spinner, Nav, Button, Container, Row } from "react-bootstrap";
 import Home from "./Home.js";
 import MyTokens from "./MyTokens.js";
 import MyResales from "./MyResales.js";
@@ -120,27 +120,38 @@ function MainApp() {
           <Row
             style={{
               flexWrap: "nowrap",
+              position: 'relative'
               // overflowX: "auto",
-              // overflowY: "scroll",
+              // overflowY: "hidden",
             }}
           >
-            <div className="bg-dark col-auto col-md-3 min-vh-100">
+            <aside
+              className="bg-dark col-auto col-md-3 min-vh-100 pt-10"
+              style={{
+                width: 300,
+                paddingTop: 20,
+                position: "fixed"
+              }}
+            >
               <div className="d-none d-sm-inline">
                 <a
                   className="text-decoration-none text-white d-flex align-items-center justify-content-center"
                   style={{ textAlign: "center" }}
                   href="/"
                 >
-                  <span className="ms-1 fs-4 my-1">Music NFT Marketplace</span>
+                  <span className="ms-1 fs-3 fw-bold my-1">Music NFT Marketplace</span>
                 </a>
               </div>
-              <Nav defaultActiveKey={"/"} className="justify-content-center">
+              <Nav
+                defaultActiveKey={"/"}
+                className="justify-content-center"
+              >
                 {account ? (
                   <Nav.Link
                     href={`https://sepolia.etherscan.io/address/${account}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="button nav-button btn-sm mx-4 d-none d-sm-block"
+                    className="button btn-sm mx-4 d-none d-sm-block"
                   >
                     <Button className="btn btn-warning">
                       {account.slice(0, 5) + "..." + account.slice(38, 42)}
@@ -159,50 +170,50 @@ function MainApp() {
                 // defaultActiveKey={"/"}
                 activeKey={activeKey}
               >
-                <Nav.Item className="text-white fs-4 my-1 py-2 py-sm-0">
+                <Nav.Item className="text-white fs-6 my-1 py-2 py-sm-0">
                   <Nav.Link
                     as={Link}
                     href="/"
                     to="/"
-                    // onClick={() => setTab(0)}
-                    // className={tab === 0 && `text-white fs-5`}
+                  // onClick={() => setTab(0)}
+                  // className={tab === 0 && `text-white fs-6`}
                   >
                     <i className="bi bi-house-fill" />
                     <span className="ms-2 d-none d-sm-inline">HOME</span>
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item className="text-white fs-4 my-1 py-2 py-sm-0">
+                <Nav.Item className="text-white fs-6 my-1 py-2 py-sm-0">
                   <Nav.Link
                     as={Link}
                     href="/my-tokens"
                     to="/my-tokens"
-                    // onClick={() => setTab(1)}
-                    // className={tab === 1 && `text-white fs-5`}
+                  // onClick={() => setTab(1)}
+                  // className={tab === 1 && `text-white fs-6`}
                   >
                     <i className="bi bi-music-note-beamed" />
                     <span className="ms-2 d-none d-sm-inline">MY TOKENS</span>
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item className="text-white fs-4 my-1 py-2 py-sm-0">
+                <Nav.Item className="text-white fs-6 my-1 py-2 py-sm-0">
                   <Nav.Link
                     as={Link}
                     href="/my-resales"
                     to="/my-resales"
-                    // onClick={() => setTab(2)}
-                    // className={tab === 2 && `text-white fs-5`}
+                  // onClick={() => setTab(2)}
+                  // className={tab === 2 && `text-white fs-6`}
                   >
                     <i className="bi bi-receipt" />
                     <span className="ms-2 d-none d-sm-inline">MY RESALES</span>
                   </Nav.Link>
                 </Nav.Item>
                 {isArtist && (
-                  <Nav.Item className="text-white fs-4 my-1 py-2 py-sm-0">
+                  <Nav.Item className="text-white fs-6 my-1 py-2 py-sm-0">
                     <Nav.Link
                       as={Link}
                       href="/list-nft"
                       to="/list-nft"
-                      // onClick={() => setTab(3)}
-                      // className={tab === 3 && `text-white fs-5`}
+                    // onClick={() => setTab(3)}
+                    // className={tab === 3 && `text-white fs-6`}
                     >
                       <i className="bi bi-cloud-arrow-up-fill" />
                       <span className="ms-2 d-none d-sm-inline">LIST NFT</span>
@@ -210,13 +221,13 @@ function MainApp() {
                   </Nav.Item>
                 )}
                 {isOwner && (
-                  <Nav.Item className="text-white fs-4 my-1 py-2 py-sm-0">
+                  <Nav.Item className="text-white fs-6 my-1 py-2 py-sm-0">
                     <Nav.Link
                       as={Link}
                       href="/setting"
                       to="/setting"
-                      // onClick={() => setTab(4)}
-                      // className={tab === 4 && `text-white fs-5`}
+                    // onClick={() => setTab(4)}
+                    // className={tab === 4 && `text-white fs-6`}
                     >
                       <i className="bi bi-gear" />
                       <span className="ms-2 d-none d-sm-inline">SETTING</span>
@@ -224,13 +235,15 @@ function MainApp() {
                   </Nav.Item>
                 )}
               </Nav>
-            </div>
+            </aside>
             <div
               className="col-auto col-md-9 col-sm-7 min-vh-100"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                paddingLeft: 310,
+                width: "100%"
               }}
             >
               {loading ? (

@@ -51,6 +51,12 @@
   white-space: nowrap;
 }
 
+.card-body-subtitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .upload-title-button:hover {
   cursor: pointer;
   background-color: black;
