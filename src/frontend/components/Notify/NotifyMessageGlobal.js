@@ -8,7 +8,7 @@ export const showNotifyMessage = (notifyMessageObject) => {
   notifyMessageSubject.next(notifyMessageObject);
 };
 
-export const createNotifyMessage = (type, content, displayTime = 50000) => ({
+export const createNotifyMessage = (type, content, displayTime = 6000) => ({
   id: Math.floor(Math.random(0, 1) * Math.pow(10, 10)).toString(),
   type,
   values: {

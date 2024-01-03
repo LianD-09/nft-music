@@ -43,7 +43,7 @@ function NotifyMessageItem(props) {
     //         onClose();
     //       }}
     //     >
-    //       <i class="bi bi-x-circle"></i>
+    //       <i className="bi bi-x-circle"></i>
     //     </button>
     //     <div className="message-notifyMessage-content">
     //       <div>
