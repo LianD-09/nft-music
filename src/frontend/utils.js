@@ -7,10 +7,12 @@ export async function getTokenInfo(token, contract) {
     const uri = await contract.tokenURI(tokenId);
     const response = await fetch(uri + "/metadata.json");
     const metadata = await response.json();
-    const identicon = `data:image/png;base64,${new Identicon(
-      metadata.name + metadata.price + new Date().toString(),
-      330
-    ).toString()}`;
+    const identicon =
+      metadata.identicon ||
+      `data:image/png;base64,${new Identicon(
+        metadata.name + metadata.price + new Date().toString(),
+        330
+      ).toString()}`;
     const cid = getCID(uri);
     const audio = makeGatewayURL(cid, metadata.path);
 

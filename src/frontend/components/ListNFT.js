@@ -1,9 +1,14 @@
 import * as ethers from "ethers";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { makeConnectToStorageClient, storeFileAndMetadata } from "../api";
 import { AppContext } from "./App";
+import {
+  showNotifyMessage,
+  createNotifyMessage,
+  NotifyTypes,
+} from "./Notify/NotifyMessageGlobal";
 
 export default function ListNFT() {
   const [formParams, updateFormParams] = useState({
@@ -14,6 +19,7 @@ export default function ListNFT() {
   });
   const [message, updateMessage] = useState("");
   const [file, setFile] = useState();
+  const [imageFile, setImageFile] = useState();
   const navigate = useNavigate();
   const { contract } = useContext(AppContext);
 
@@ -22,24 +28,42 @@ export default function ListNFT() {
       try {
         const account = await makeConnectToStorageClient();
         if (account) {
-          alert("You are connected to web3.storage")
+          // alert("You are connected to web3.storage");
+          showNotifyMessage(
+            createNotifyMessage(
+              NotifyTypes.SUCCESS,
+              "You are connected to web3.storage!"
+            )
+          );
+        } else {
+          // alert(
+          //   "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+          // );
+          showNotifyMessage(
+            createNotifyMessage(
+              NotifyTypes.WARNING,
+              "You are not connected to web3.storage. Please go to your mail to verify before continue!"
+            )
+          );
+          navigate("/");
         }
-        else {
-          alert("You are not connected to web3.storage. Please go to your mail to verify before continue!");
-          navigate("/")
-        }
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e);
-        alert("You are not connected to web3.storage. Please try again")
-        navigate("/")
+        // alert("You are not connected to web3.storage. Please try again");
+        showNotifyMessage(
+          createNotifyMessage(
+            NotifyTypes.WARNING,
+            "You are not connected to web3.storage. Please try again!"
+          )
+        );
+        navigate("/");
       }
-    }
+    };
 
     connect();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   const changeFile = async (e) => {
     const file = e.target.files[0];
@@ -73,6 +97,7 @@ export default function ListNFT() {
       description,
       price,
       artist,
+      identicon: imageFile,
     });
 
     return result.directoryGatewayURI;
@@ -96,19 +121,43 @@ export default function ListNFT() {
       await transaction.wait();
       console.log(1234);
 
-      alert("Upload successfully");
+      // alert("Upload successfully");
+      showNotifyMessage(
+        createNotifyMessage(NotifyTypes.SUCCESS, "Upload successfully!")
+      );
       updateMessage("");
       updateFormParams({ name: "", description: "", price: "", artist: "" });
+      setImageFile("");
       navigate("/");
     } catch (e) {
-      updateMessage('');
-      alert("Upload failed");
+      updateMessage("");
+      // alert("Upload failed");
+      showNotifyMessage(
+        createNotifyMessage(NotifyTypes.FAILURE, "Upload failed!")
+      );
       console.log(e);
     }
   };
 
+  const onSelectImage = useCallback((event) => {
+    const imgFile = event.target.files[0];
+    console.log("arrFiles: ", imgFile);
+
+    let reader = new FileReader();
+
+    if (imgFile) {
+      reader.readAsDataURL(imgFile);
+      reader.onload = function () {
+        setImageFile(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    }
+  }, []);
+
   return (
-    <div className="mt-5 container">
+    <div className="mt-5 mb-5 container">
       <div className="row">
         <div className="col-6 offset-3">
           <form
@@ -130,6 +179,19 @@ export default function ListNFT() {
                 value={formParams.name}
                 required
               ></input>
+            </div>
+            <div className="d-flex flex-column align-items-start mt-3">
+              <label className="2" htmlFor="image">
+                Upload Image
+              </label>
+              <input
+                type="file"
+                name="file"
+                className="form-control mt-1"
+                onChange={onSelectImage}
+                accept=".jpg,.jpeg,.png"
+                required
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="name">
@@ -159,7 +221,7 @@ export default function ListNFT() {
                 value={formParams.description}
                 onChange={changeDescription}
                 required
-              ></textarea>
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="price">
@@ -173,7 +235,7 @@ export default function ListNFT() {
                 value={formParams.price}
                 onChange={changePrice}
                 required
-              ></input>
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="image">
@@ -185,14 +247,10 @@ export default function ListNFT() {
                 onChange={changeFile}
                 accept=".mp3,.wma,.wav,.flac"
                 required
-              ></input>
+              />
             </div>
             <br></br>
-            <Button
-              type="submit"
-              disabled={!file}
-              className="btn btn-warning"
-            >
+            <Button type="submit" disabled={!file} className="btn btn-warning">
               List NFT
             </Button>
             <div className="text-danger">{message}</div>

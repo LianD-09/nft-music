@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  position: relative;
 }
 
 .App-logo {
@@ -35,4 +36,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.card-text-bottom {
+  overflow: hidden;
+  white-space: pre;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+}
+
+.card-body-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-body-subtitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-title-button:hover {
+  cursor: pointer;
+  background-color: black;
 }
