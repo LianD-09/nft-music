@@ -50,3 +50,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.upload-title-button:hover {
+  cursor: pointer;
+  background-color: black;
+}

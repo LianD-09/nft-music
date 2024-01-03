@@ -1,5 +1,5 @@
 import * as ethers from "ethers";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { makeConnectToStorageClient, storeFileAndMetadata } from "../api";
@@ -19,6 +19,7 @@ export default function ListNFT() {
   });
   const [message, updateMessage] = useState("");
   const [file, setFile] = useState();
+  const [imageFile, setImageFile] = useState();
   const navigate = useNavigate();
   const { contract } = useContext(AppContext);
 
@@ -96,6 +97,7 @@ export default function ListNFT() {
       description,
       price,
       artist,
+      identicon: imageFile,
     });
 
     return result.directoryGatewayURI;
@@ -136,8 +138,25 @@ export default function ListNFT() {
     }
   };
 
+  const onSelectImage = useCallback((event) => {
+    const imgFile = event.target.files[0];
+    console.log("arrFiles: ", imgFile);
+
+    let reader = new FileReader();
+
+    if (imgFile) {
+      reader.readAsDataURL(imgFile);
+      reader.onload = function () {
+        setImageFile(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    }
+  }, []);
+
   return (
-    <div className="mt-5 container">
+    <div className="mt-5 mb-5 container">
       <div className="row">
         <div className="col-6 offset-3">
           <form
@@ -159,6 +178,19 @@ export default function ListNFT() {
                 value={formParams.name}
                 required
               ></input>
+            </div>
+            <div className="d-flex flex-column align-items-start mt-3">
+              <label className="2" htmlFor="image">
+                Upload Image
+              </label>
+              <input
+                type="file"
+                name="file"
+                className="form-control mt-1"
+                onChange={onSelectImage}
+                accept=".jpg,.jpeg,.png"
+                required
+              />
             </div>
             <div className="d-flex flex-column align-items-start mt-3">
               <label className="2" htmlFor="name">
