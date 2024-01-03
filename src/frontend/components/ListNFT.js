@@ -32,7 +32,7 @@ export default function ListNFT() {
           showNotifyMessage(
             createNotifyMessage(
               NotifyTypes.SUCCESS,
-              "You are connected to web3.storage"
+              "You are connected to web3.storage!"
             )
           );
         } else {
@@ -42,7 +42,7 @@ export default function ListNFT() {
           showNotifyMessage(
             createNotifyMessage(
               NotifyTypes.WARNING,
-              "You are not connected to web3.storage!"
+              "You are not connected to web3.storage. Please go to your mail to verify before continue!"
             )
           );
           navigate("/");
@@ -53,7 +53,7 @@ export default function ListNFT() {
         showNotifyMessage(
           createNotifyMessage(
             NotifyTypes.WARNING,
-            "You are not connected to web3.storage!"
+            "You are not connected to web3.storage. Please try again!"
           )
         );
         navigate("/");
@@ -127,6 +127,7 @@ export default function ListNFT() {
       );
       updateMessage("");
       updateFormParams({ name: "", description: "", price: "", artist: "" });
+      setImageFile("");
       navigate("/");
     } catch (e) {
       updateMessage("");
