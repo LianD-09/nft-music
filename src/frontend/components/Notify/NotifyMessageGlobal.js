@@ -19,7 +19,7 @@ export const createNotifyMessage = (type, content, displayTime = 50000) => ({
 
 export const NotifyTypes = {
   SUCCESS: "success",
-  FAILURE: "failure",
+  FAILURE: "danger",
   WARNING: "warning",
 };
 

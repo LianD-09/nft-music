@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Alert } from "react-bootstrap";
 import { NotifyTypes } from "./NotifyMessageGlobal";
 import "./index.css";
 
@@ -18,52 +19,61 @@ function NotifyMessageItem(props) {
   }, [displayTime, onClose]);
 
   return (
+    // <div
+    //   role="presentation"
+    //   className="message-notifyMessage-item"
+    //   onClick={onClickNotify}
+    // >
+    //   <div
+    //     className="message-notifyMessage-topbar"
+    //     style={{
+    //       backgroundColor:
+    //         type === NotifyTypes.SUCCESS
+    //           ? "#52c41a"
+    //           : type === NotifyTypes.FAILURE
+    //           ? "#ff4d4f"
+    //           : "#faad14",
+    //     }}
+    //   />
+    //   <div style={{ display: "flex", flexDirection: "row" }}>
+    //     <button
+    //       className="message-notifyMessage-closeIcon"
+    //       onClick={(e) => {
+    //         e.stopPropagation();
+    //         onClose();
+    //       }}
+    //     >
+    //       <i class="bi bi-x-circle"></i>
+    //     </button>
+    //     <div className="message-notifyMessage-content">
+    //       <div>
+    //         {content && (
+    //           <span
+    //             style={{
+    //               color: "#545454",
+    //               fontSize: 13,
+    //               display: "inline-block",
+    //               width: "100%",
+    //               whiteSpace: "nowrap",
+    //               overflow: "hidden",
+    //               textOverflow: "ellipsis",
+    //             }}
+    //           >
+    //             {content}
+    //           </span>
+    //         )}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
     <div
       role="presentation"
       className="message-notifyMessage-item"
       onClick={onClickNotify}
     >
-      <div
-        className="message-notifyMessage-topbar"
-        style={{
-          backgroundColor:
-            type === NotifyTypes.SUCCESS
-              ? "#52c41a"
-              : type === NotifyTypes.FAILURE
-              ? "#ff4d4f"
-              : "#faad14",
-        }}
-      />
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <button
-          className="message-notifyMessage-closeIcon"
-          onClick={(e) => {
-            e.stopPropagation();
-            onClose();
-          }}
-        >
-          <i class="bi bi-x-circle"></i>
-        </button>
-        <div className="message-notifyMessage-content">
-          <div>
-            {content && (
-              <span
-                style={{
-                  color: "#545454",
-                  fontSize: 13,
-                  display: "inline-block",
-                  width: "100%",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {content}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+      <Alert variant={type} onClose={() => onClickNotify()} dismissible>
+        {content}
+      </Alert>
     </div>
   );
 }

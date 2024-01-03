@@ -210,7 +210,14 @@ function App() {
                   )}
                 </Nav>
               </div>
-              <div className="col-auto col-md-9 col-sm-7 min-vh-100">
+              <div
+                className="col-auto col-md-9 col-sm-7 min-vh-100"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
                 {loading ? (
                   <div
                     style={{
@@ -234,10 +241,10 @@ function App() {
                     {isOwner && <Route path="/setting" element={<Setting />} />}
                   </Routes>
                 )}
+                <NotifyMessageGlobal />
               </div>
             </Row>
           </Container>
-          <NotifyMessageGlobal />
         </div>
       </BrowserRouter>
     </AppContext.Provider>

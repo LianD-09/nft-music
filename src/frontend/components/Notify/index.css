@@ -1,15 +1,16 @@
 .message-notifyMessage {
+  position: -webkit-sticky;
   position: sticky;
   z-index: 9999;
-  bottom: 30px;
-  left: 64px;
-  width: 290px;
+  bottom: 12px;
+  left: calc(100% - 300px - 12px);
+  max-width: 300px;
 }
 
 .message-notifyMessage-item {
-  height: 60px;
+  /* height: 60px;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #fff; */
   margin-top: 15px;
 }
 
